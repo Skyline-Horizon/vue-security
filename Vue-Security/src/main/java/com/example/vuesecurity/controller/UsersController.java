@@ -2,7 +2,7 @@ package com.example.vuesecurity.controller;
 
 
 import com.alibaba.fastjson.JSON;
-import com.example.vuesecurity.entity.MyTUserDetail;
+import com.example.vuesecurity.entity.MyUserDetail;
 import com.example.vuesecurity.entity.Result;
 import com.example.vuesecurity.entity.Users;
 import com.example.vuesecurity.entity.dto.DtoLogin;
@@ -58,7 +58,7 @@ public class UsersController {
     public Result logout(@RequestHeader("token")String token){
         Integer id = jwtUtil.getUsernameFromToken(token);
         redisTemplate.delete(String.valueOf(id));
-
+        System.out.println("用户退出=======>");
         return Result.success();
     }
 
@@ -67,7 +67,7 @@ public class UsersController {
         System.out.println("controller层获取到的token=======>"+token);
         Integer id = jwtUtil.getUsernameFromToken(token);
         String redisUser = redisTemplate.opsForValue().get(String.valueOf(id));
-        MyTUserDetail myTUserDetail = JSON.parseObject(redisUser, MyTUserDetail.class);
+        MyUserDetail myTUserDetail = JSON.parseObject(redisUser, MyUserDetail.class);
         return Result.successData(myTUserDetail);
 
     }

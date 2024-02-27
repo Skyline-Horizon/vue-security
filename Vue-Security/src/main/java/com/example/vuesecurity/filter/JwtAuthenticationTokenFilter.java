@@ -1,12 +1,13 @@
 package com.example.vuesecurity.filter;
 
 import com.alibaba.fastjson.JSON;
-import com.example.vuesecurity.entity.MyTUserDetail;
+import com.example.vuesecurity.entity.MyUserDetail;
 import com.example.vuesecurity.utils.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +19,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
@@ -45,11 +47,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             return;
         }
 
-        MyTUserDetail myTUserDetail= JSON.parseObject(redisUser, MyTUserDetail.class);
+        MyUserDetail myTUserDetail= JSON.parseObject(redisUser, MyUserDetail.class);
+log.info("Jwt过滤器中MyUserDetail的值============>"+myTUserDetail.toString());
 
         //将用户信息存放在SecurityContextHolder.getContext()，后面的过滤器就可以获得用户信息了。这表明当前这个用户是登录过的，后续的拦截器就不用再拦截了
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=new UsernamePasswordAuthenticationToken(myTUserDetail,null,null);
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=new UsernamePasswordAuthenticationToken(myTUserDetail,null,myTUserDetail.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         filterChain.doFilter(request,response);
     }
+
 }

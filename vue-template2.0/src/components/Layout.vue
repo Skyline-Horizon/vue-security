@@ -13,6 +13,7 @@
 <br>
 <el-button type="primary" @click="getUserInfo">获取用户信息</el-button>
             <el-button type="success" @click="Logout">退出登录</el-button>
+            <el-button type="success" @click="testHello">测试权限</el-button>
 
         </el-main>
 
@@ -32,16 +33,17 @@ import { useRouter } from 'vue-router'
 import  useToeknStore from '@/stores/useToken'
 const router = useRouter()
 
+const useToken=useToeknStore()
 
 const Logout =async () => {
  let data:any= await api.get("/user/logout")
- 
 console.log('退出登录====>',data);
-
 if(data.code===200){
+  // 清除token
+useToken.removeToken()
+
 ElMessage('退出成功')
-// 清除token
-useToeknStore().removeToken
+
 router.replace({name:'login'})
 
 }
@@ -59,6 +61,16 @@ console.log('@',data);
 
 }
 
+
+const testHello = async() => {
+  let data:any= await api.get("/test/hello")
+if(data.code===200){
+  ElMessage('有权限')
+}
+else{
+  ElMessage.error('没有权限')
+}
+}
 
 </script>
 

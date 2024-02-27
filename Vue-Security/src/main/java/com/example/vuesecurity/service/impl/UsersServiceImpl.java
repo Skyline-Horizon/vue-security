@@ -1,7 +1,7 @@
 package com.example.vuesecurity.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.example.vuesecurity.entity.MyTUserDetail;
+import com.example.vuesecurity.entity.MyUserDetail;
 import com.example.vuesecurity.entity.ResultException;
 import com.example.vuesecurity.entity.Users;
 import com.example.vuesecurity.entity.dto.DtoLogin;
@@ -56,8 +56,10 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
 //        获取返回的用户信息
         Object principal = authenticate.getPrincipal();
 
-        MyTUserDetail myTUserDetail=(MyTUserDetail) principal;
-        System.out.println(myTUserDetail);
+        MyUserDetail myTUserDetail=(MyUserDetail) principal;
+        System.out.println("登录接口的MyUserDetail=============>"+myTUserDetail);
+        System.out.println("登录接口的MyUserDetail的getAuthorities方法=============>"+myTUserDetail.getAuthorities());
+
 //        使用Jwt生成token，并将用户的id传入
         String token = jwtUtil.generateToken(myTUserDetail.getUsers().getId());
         redisTemplate.opsForValue().
