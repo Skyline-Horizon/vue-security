@@ -30,6 +30,9 @@ public class MyServiceConfig {
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
+        @Autowired
+    private LogoutSuccess logoutSuccess;
+
     /*
     * security的过滤器链
     * */
@@ -47,6 +50,11 @@ http.cors(cors->{
         });
 //自定义过滤器放在UsernamePasswordAuthenticationFilter过滤器之前
     http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+  http.logout(logout->{
+       logout.logoutUrl("user/logout")  //退出路径
+               .logoutSuccessHandler(logoutSuccess); //退出成功处理器
+    });
 
 
     return http.build();
