@@ -54,13 +54,13 @@ public class UsersController {
     @Autowired
     private JwtUtil jwtUtil;
 
-    @GetMapping("/logout")
-    public Result logout(@RequestHeader("token")String token){
-        Integer id = jwtUtil.getUsernameFromToken(token);
-        redisTemplate.delete(String.valueOf(id));
-        System.out.println("用户退出=======>");
-        return Result.success();
-    }
+    // @GetMapping("/logout")
+    // public Result logout(@RequestHeader("token")String token){
+    //     Integer id = jwtUtil.getUsernameFromToken(token);
+    //     redisTemplate.delete(String.valueOf(id));
+    //     System.out.println("用户退出=======>");
+    //     return Result.success();
+    // }
 
     @GetMapping("/info")
     public Result info(@RequestHeader("token")String token){
