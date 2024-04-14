@@ -49,6 +49,7 @@ http.cors(cors->{
     http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
 
+
     return http.build();
 }
 

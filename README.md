@@ -3,31 +3,10 @@
 #### 介绍
 前后端分离的Security
 这是一个基础的demo，用来帮助你快速的了解在实际开发中使用spring security安全框架；
-本次采用前后端分离的模式、前端使用vue3、后端使用springboot整合springsecurity安全框架；
-本次项目涉及登录认证和权限校验。
-
-#### 软件架构
-软件架构说明
+本次采用前后端分离的模式、前端使用vue3、后端使用springboot整合spring security安全框架；
+本次项目主要涉及登录认证和基于RBAC模式的权限校验。
 
 
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
 
 
 #### 特技
