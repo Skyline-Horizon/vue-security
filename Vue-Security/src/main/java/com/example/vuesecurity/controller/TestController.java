@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
     @PreAuthorize("hasAnyAuthority('张乔没有的权限')")
     @GetMapping("/hello")
-    public Result hello(){
+    public Result hello() {
         System.out.println("test接口中的hello方法调用========================");
         return Result.successData("hello");
     }
-
 
 
 }

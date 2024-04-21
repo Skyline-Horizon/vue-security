@@ -9,11 +9,11 @@ import lombok.Data;
 @Data
 public class DtoLogin {
 
-private String username;
-private String password;
-private String codeKey;
-private String codeValue;
-private Boolean rememberMe;
+    private String username;
+    private String password;
+    private String codeKey;
+    private String codeValue;
+    private Boolean rememberMe;
 
 
 }

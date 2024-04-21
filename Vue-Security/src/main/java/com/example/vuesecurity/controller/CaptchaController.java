@@ -1,4 +1,5 @@
 package com.example.vuesecurity.controller;
+
 import cn.hutool.captcha.CaptchaUtil;
 import cn.hutool.captcha.CircleCaptcha;
 
@@ -22,26 +23,25 @@ import java.util.concurrent.TimeUnit;
 public class CaptchaController {
 
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
-@GetMapping
-public Result getCaptcha(){
-    System.out.println("----------------------------------");
+    @GetMapping
+    public Result getCaptcha() {
+        System.out.println("----------------------------------");
 
 //    生成验证码，并放入redis
-    CircleCaptcha circleCaptcha = CaptchaUtil.createCircleCaptcha(150, 50, 4, 2);
-    String codeValue = circleCaptcha.getCode();
-    String imageBase64 = circleCaptcha.getImageBase64();
+        CircleCaptcha circleCaptcha = CaptchaUtil.createCircleCaptcha(150, 50, 4, 2);
+        String codeValue = circleCaptcha.getCode();
+        String imageBase64 = circleCaptcha.getImageBase64();
 
-    String codeKey = UUID.randomUUID().toString();
-    redisTemplate.opsForValue().set(codeKey,codeValue,5, TimeUnit.MINUTES);
+        String codeKey = UUID.randomUUID().toString();
+        redisTemplate.opsForValue().set(codeKey, codeValue, 5, TimeUnit.MINUTES);
 //    "data:images/png;base64,"+imageBase64    直接显示
-    VoCode voCode=new VoCode(codeKey,"data:images/png;base64,"+imageBase64);
-    return Result.successData(voCode);
+        VoCode voCode = new VoCode(codeKey, "data:images/png;base64," + imageBase64);
+        return Result.successData(voCode);
 
 
-}
-
+    }
 
 
 }

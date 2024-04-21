@@ -22,7 +22,7 @@ import java.io.IOException;
 @Component
 public class LogoutSuccess implements LogoutSuccessHandler {
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
     @Autowired
     private JwtUtil jwtUtil;
 
@@ -30,16 +30,16 @@ public class LogoutSuccess implements LogoutSuccessHandler {
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 
         String token = request.getHeader("token");
-        if (token == null){
-            throw new ResultException(555,"先去登录");
+        if (token == null) {
+            throw new ResultException(555, "先去登录");
         }
         Integer id = jwtUtil.getUsernameFromToken(token);
 //        删除redis中的用户信息
         redisTemplate.delete(String.valueOf(id));
-        Result<String> result=Result.successMessage("退出成功");
+        Result<String> result = Result.successMessage("退出成功");
 
 
         response.setContentType("application/json;charset=UTF-8");
-    response.getWriter().write(JSON.toJSONString(result));
+        response.getWriter().write(JSON.toJSONString(result));
     }
 }

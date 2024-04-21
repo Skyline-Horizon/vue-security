@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class VoCode {
 
-private String codeKey;
-private String codeValue;
+    private String codeKey;
+    private String codeValue;
 
 
 }

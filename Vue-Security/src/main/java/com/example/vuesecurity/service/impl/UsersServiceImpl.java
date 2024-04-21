@@ -20,7 +20,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
- *  服务实现类
+ * 服务实现类
  * </p>
  *
  * @author 张乔
@@ -30,7 +30,7 @@ import java.util.concurrent.TimeUnit;
 public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements IUsersService {
 
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
     @Autowired
     AuthenticationManager authenticationManager;
 
@@ -41,29 +41,29 @@ public class UsersServiceImpl extends ServiceImpl<UsersMapper, Users> implements
     @Override
     public String login(DtoLogin dtoLogin) {
         String codeRedis = redisTemplate.opsForValue().get(dtoLogin.getCodeKey());
-        if (!dtoLogin.getCodeValue().equals(codeRedis)){
-            throw new ResultException(400,"验证码错误");
+        if (!dtoLogin.getCodeValue().equals(codeRedis)) {
+            throw new ResultException(400, "验证码错误");
         }
         // 验证码正确，删除redis中的验证码
         redisTemplate.delete(dtoLogin.getCodeKey());
 
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(dtoLogin.getUsername(),dtoLogin.getPassword());
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(dtoLogin.getUsername(), dtoLogin.getPassword());
 
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-        if(authenticate==null){
-            throw new  ResultException(400,"用户名或密码错误");
+        if (authenticate == null) {
+            throw new ResultException(400, "用户名或密码错误");
         }
 //        获取返回的用户信息
         Object principal = authenticate.getPrincipal();
 
-        MyUserDetail myTUserDetail=(MyUserDetail) principal;
-        System.out.println("登录接口的MyUserDetail=============>"+myTUserDetail);
-        System.out.println("登录接口的MyUserDetail的getAuthorities方法=============>"+myTUserDetail.getAuthorities());
+        MyUserDetail myTUserDetail = (MyUserDetail) principal;
+        System.out.println("登录接口的MyUserDetail=============>" + myTUserDetail);
+        System.out.println("登录接口的MyUserDetail的getAuthorities方法=============>" + myTUserDetail.getAuthorities());
 
 //        使用Jwt生成token，并将用户的id传入
         String token = jwtUtil.generateToken(myTUserDetail.getUsers().getId());
         redisTemplate.opsForValue().
-                set(String.valueOf(myTUserDetail.getUsers().getId()), JSON.toJSONString(myTUserDetail),1, TimeUnit.DAYS);
+                set(String.valueOf(myTUserDetail.getUsers().getId()), JSON.toJSONString(myTUserDetail), 1, TimeUnit.DAYS);
 
 
         return token;

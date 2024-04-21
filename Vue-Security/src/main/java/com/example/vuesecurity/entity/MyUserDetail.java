@@ -25,27 +25,27 @@ public class MyUserDetail implements Serializable, UserDetails {
 
     private Users Users;
 
-//    角色
+    //    角色
     private Set<String> roles;
 
-//    权限
-    private  Set<String> permissions;
+    //    权限
+    private Set<String> permissions;
 
 
     @JsonIgnore  //json忽略
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        List<GrantedAuthority> list =  new ArrayList<>();
+        List<GrantedAuthority> list = new ArrayList<>();
 
 //        如果角色不用空，则将角色添加到list中
-        if (!ObjectUtils.isEmpty(roles)){
-            roles.forEach(role->list.add(new SimpleGrantedAuthority(role)));
+        if (!ObjectUtils.isEmpty(roles)) {
+            roles.forEach(role -> list.add(new SimpleGrantedAuthority(role)));
         }
 
 //                如果权限不用空，则将权限添加到list中
-        if (!ObjectUtils.isEmpty(permissions)){
-            permissions.forEach(permission->list.add(new SimpleGrantedAuthority(permission)));
+        if (!ObjectUtils.isEmpty(permissions)) {
+            permissions.forEach(permission -> list.add(new SimpleGrantedAuthority(permission)));
         }
         return list;
 
@@ -56,6 +56,7 @@ public class MyUserDetail implements Serializable, UserDetails {
     public String getPassword() {
         return this.getUsers().getPassword();
     }
+
     @JsonIgnore
     @Override
     public String getUsername() {
@@ -65,21 +66,24 @@ public class MyUserDetail implements Serializable, UserDetails {
     @JsonIgnore
     @Override
     public boolean isAccountNonExpired() {
-        return this.getUsers().getStatus()==0;
+        return this.getUsers().getStatus() == 0;
     }
+
     @JsonIgnore
     @Override
     public boolean isAccountNonLocked() {
-        return this.getUsers().getStatus()==0;
+        return this.getUsers().getStatus() == 0;
     }
+
     @JsonIgnore
     @Override
     public boolean isCredentialsNonExpired() {
-        return this.getUsers().getStatus()==0;
+        return this.getUsers().getStatus() == 0;
     }
+
     @JsonIgnore
     @Override
     public boolean isEnabled() {
-        return this.getUsers().getStatus()==0;
+        return this.getUsers().getStatus() == 0;
     }
 }

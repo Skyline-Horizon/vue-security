@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ResultException extends RuntimeException{
+public class ResultException extends RuntimeException {
     private Integer code;
     private String message;
 }

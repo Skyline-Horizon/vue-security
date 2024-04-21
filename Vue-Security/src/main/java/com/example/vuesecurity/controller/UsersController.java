@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author 张乔
@@ -30,8 +30,6 @@ public class UsersController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-
 
 
     @PostMapping("/login")
@@ -51,23 +49,24 @@ public class UsersController {
         return Result.success();
 
     }
+
     @Autowired
-    private RedisTemplate<String,String> redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
 
     @Autowired
     private JwtUtil jwtUtil;
 
-     @GetMapping("/logout")
-     public Result logout(@RequestHeader("token")String token){
-         Integer id = jwtUtil.getUsernameFromToken(token);
-         redisTemplate.delete(String.valueOf(id));
-         System.out.println("用户退出=======>");
-         return Result.success();
-     }
+    @GetMapping("/logout")
+    public Result logout(@RequestHeader("token") String token) {
+        Integer id = jwtUtil.getUsernameFromToken(token);
+        redisTemplate.delete(String.valueOf(id));
+        System.out.println("用户退出=======>");
+        return Result.success();
+    }
 
     @GetMapping("/info")
-    public Result info(@RequestHeader("token")String token){
-        System.out.println("controller层获取到的token=======>"+token);
+    public Result info(@RequestHeader("token") String token) {
+        System.out.println("controller层获取到的token=======>" + token);
         Integer id = jwtUtil.getUsernameFromToken(token);
         String redisUser = redisTemplate.opsForValue().get(String.valueOf(id));
         MyUserDetail myTUserDetail = JSON.parseObject(redisUser, MyUserDetail.class);

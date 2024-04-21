@@ -46,9 +46,9 @@ public class MyUserDetailServerImpl implements MyUserDetailServer {
         if (users == null) {
             throw new UsernameNotFoundException("用户名不存在");
         }
-log.info("UserDetailServer中的user:=========>"+users);
-        MyUserDetail myTUserDetail=new MyUserDetail();
-myTUserDetail.setUsers(users);
+        log.info("UserDetailServer中的user:=========>" + users);
+        MyUserDetail myTUserDetail = new MyUserDetail();
+        myTUserDetail.setUsers(users);
 
 
         // 查询用户权限

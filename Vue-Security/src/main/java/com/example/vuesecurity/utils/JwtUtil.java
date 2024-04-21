@@ -10,14 +10,15 @@ import java.util.Date;
 
 /**
  * &#064;Author  张乔
+ *
  * @Date 2024/1/22 14:28
  */
 @Component
 public class JwtUtil {
 
-    private final String secret="zhangqiao";
+    private final String secret = "zhangqiao";
 
-    private final Long expiration=36000000L;
+    private final Long expiration = 36000000L;
 
     public String generateToken(Integer id) {
         Date now = new Date();
@@ -41,8 +42,8 @@ public class JwtUtil {
     }
 
     /*
-    * 判断token是否过期
-    * */
+     * 判断token是否过期
+     * */
     public boolean isTokenValid(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
@@ -54,10 +55,10 @@ public class JwtUtil {
     }
 
     /*
-    * 刷新token
-    * */
+     * 刷新token
+     * */
 
-    public String refreshToken(String token,Long refreshTime) {
+    public String refreshToken(String token, Long refreshTime) {
         try {
             DecodedJWT jwt = JWT.decode(token);
             String username = jwt.getSubject();
