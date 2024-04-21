@@ -1,13 +1,12 @@
-
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
+import {createApp} from 'vue'
+import {createPinia} from 'pinia'
 import ElementPlus from 'element-plus'
-import 'element-plus/dist/index.css' 
+import 'element-plus/dist/index.css'
 
 import App from '@/App.vue'
 import router from '@/router'
 // 1、pinia的持久化插件
-import { createPersistedState } from 'pinia-plugin-persistedstate'
+import {createPersistedState} from 'pinia-plugin-persistedstate'
 // element-plus的图标
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
@@ -23,7 +22,7 @@ pinia.use(piniaPersistedState)
 // 全局引入图标
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
-  }
+}
 
 
 app.use(pinia)
