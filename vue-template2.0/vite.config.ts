@@ -10,9 +10,14 @@ export default defineConfig({
   ],
   server: {
     host: '0.0.0.0', //任何人都能访问
-    port: 8080,  //端口号
+    port: 8081,  //端口号
     open: true,  //启动项目时，自动打开浏览器
-    
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true,
+      }
+    }
   
   } ,
 

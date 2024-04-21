@@ -3,7 +3,7 @@ import  useTokenStore from '@/stores/useToken'
 import { ElMessage } from 'element-plus';
 // 先建一个api
 const api = axios.create({
-    baseURL: "http://localhost:8888",
+    baseURL: "http://localhost:8081/api",
     timeout: 5000
 });
 // 发送请求前拦截

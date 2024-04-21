@@ -39,7 +39,6 @@ public class MyUserDetailServerImpl implements MyUserDetailServer {
     IRolesService rolesService;
 
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Users users = userService.selectOne(new LambdaQueryWrapper<Users>().
@@ -56,42 +55,41 @@ myTUserDetail.setUsers(users);
 
 
 //        根据用户id从用户角色表中获取角色id
-        List<UserRoles> roleIds = userRolesService.list(new LambdaQueryWrapper<UserRoles>()
-                .eq(UserRoles::getUserId,users.getId()));
-        List<Integer> rolesList = roleIds.stream().map(UserRoles::getRoleId).toList();
-
-        if (!(roleIds.size() >0)){
-//            用户没有分配角色
-            return myTUserDetail;
-        }
-
-        Set<String> listPermission = new HashSet<>();
-
-        rolesList.forEach(roleId ->{
-            // 根据角色id从角色权限表中获取权限id
-            List<RolePermissions> rolePermissions = rolePermissionsService.list(new LambdaQueryWrapper<RolePermissions>().
-                    eq(RolePermissions::getRoleId, roleId));
-            // 根据权限id从权限表中获取权限名称
-            rolePermissions.forEach(permissionsId->{
-                Permissions permissions = permissionsService.getById(permissionsId.getPermissionId());
-                listPermission.add(permissions.getName());
-            });
-        });
-
-myTUserDetail.setPermissions( listPermission);
-
-        // 查询角色角色
-
-        Set<String> listRole = new HashSet<>();
-
-
-
-        roleIds.forEach(roleId ->{
-            Roles byId = rolesService.getById(roleId.getRoleId());
-            listRole.add(byId.getName());
-        });
-        myTUserDetail.setRoles(listRole);
-log.info("UserDetailServer中的查完权限的myTUserDetail:=========>"+myTUserDetail);
+//        List<UserRoles> roleIds = userRolesService.list(new LambdaQueryWrapper<UserRoles>()
+//                .eq(UserRoles::getUserId, users.getId()));
+//        List<Integer> rolesList = roleIds.stream().map(UserRoles::getRoleId).toList();
+//
+//        if (!(!roleIds.isEmpty())) {
+////            用户没有分配角色
+//            return myTUserDetail;
+//        }
+//
+//        Set<String> listPermission = new HashSet<>();
+//
+//        rolesList.forEach(roleId -> {
+//            // 根据角色id从角色权限表中获取权限id
+//            List<RolePermissions> rolePermissions = rolePermissionsService.list(new LambdaQueryWrapper<RolePermissions>().
+//                    eq(RolePermissions::getRoleId, roleId));
+//            // 根据权限id从权限表中获取权限名称
+//            rolePermissions.forEach(permissionsId -> {
+//                Permissions permissions = permissionsService.getById(permissionsId.getPermissionId());
+//                listPermission.add(permissions.getName());
+//            });
+//        });
+//
+//        myTUserDetail.setPermissions(listPermission);
+//
+//        // 查询角色角色
+//
+//        Set<String> listRole = new HashSet<>();
+//
+//
+//        roleIds.forEach(roleId -> {
+//            Roles byId = rolesService.getById(roleId.getRoleId());
+//            listRole.add(byId.getName());
+//        });
+//        myTUserDetail.setRoles(listRole);
+//        log.info("UserDetailServer中的查完权限的myTUserDetail:=========>" + myTUserDetail);
         return myTUserDetail;
     }
 

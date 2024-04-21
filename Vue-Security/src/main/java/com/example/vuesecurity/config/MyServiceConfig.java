@@ -30,59 +30,55 @@ public class MyServiceConfig {
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
-        @Autowired
+    @Autowired
     private LogoutSuccess logoutSuccess;
 
     /*
-    * security的过滤器链
-    * */
-@Bean
-public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception {
-http.csrf(AbstractHttpConfigurer::disable);
+     * security的过滤器链
+     * */
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable);
 
-http.authorizeHttpRequests((auth) ->
-    auth
-            .requestMatchers("/getCaptcha","user/login","user/register").permitAll()
-            .anyRequest().authenticated()
-);
-http.cors(cors->{
-    cors.configurationSource(corsConfigurationSource());
+        http.authorizeHttpRequests((auth) ->
+                auth.requestMatchers("/getCaptcha", "user/login", "user/register").permitAll().anyRequest().authenticated()
+        );
+        http.cors(cors -> {
+            cors.configurationSource(corsConfigurationSource());
         });
 //自定义过滤器放在UsernamePasswordAuthenticationFilter过滤器之前
-    http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-  http.logout(logout->{
-       logout.logoutUrl("user/logout")  //退出路径
-               .logoutSuccessHandler(logoutSuccess); //退出成功处理器
-    });
-
-
-
-    return http.build();
-}
-
-@Autowired
-private MyUserDetailServerImpl myUserDetailsService;
+        http.logout(logout -> {
+            logout.logoutUrl("user/logout")  //退出路径
+                    .logoutSuccessHandler(logoutSuccess); //退出成功处理器
+        });
 
 
+        return http.build();
+    }
 
-/*
-* 验证管理器
-* */
+    @Autowired
+    private MyUserDetailServerImpl myUserDetailsService;
+
+
+    /*
+     * 验证管理器
+     * */
     @Bean
-    public AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder){
-        DaoAuthenticationProvider provider=new DaoAuthenticationProvider();
+    public AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder) {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
 //将编写的UserDetailsService注入进来
         provider.setUserDetailsService(myUserDetailsService);
 //将使用的密码编译器加入进来
         provider.setPasswordEncoder(passwordEncoder);
 //将provider放置到AuthenticationManager 中
-        ProviderManager providerManager=new ProviderManager(provider);
+        ProviderManager providerManager = new ProviderManager(provider);
         return providerManager;
     }
 
 
-//跨域配置
+    //跨域配置
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -95,10 +91,10 @@ private MyUserDetailServerImpl myUserDetailsService;
     }
 
     /*
-    * 密码加密器*/
-@Bean
-    public PasswordEncoder passwordEncoder(){
-    return new BCryptPasswordEncoder();
-}
+     * 密码加密器*/
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
 }
